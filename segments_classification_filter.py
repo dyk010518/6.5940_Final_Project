@@ -19,7 +19,7 @@ from classify_image import main as image_classifier
 import shutil
 
 
-def main(segement_directory_path, result_directory_path, cutoff = 0):
+def main(segement_directory_path, result_directory_path, cutoff):
     # we take the directory of the segmented images
 
     # iterate through the segmented images in the directory
@@ -45,18 +45,18 @@ def main(segement_directory_path, result_directory_path, cutoff = 0):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--segement_directory_path', type=str, default='assets/demo/example_2/')
-    parser.add_argument('--result_directory_path', type=str, default='assets/results/example_2/')
-    parser.add_argument('--cutoff', type=int, default=0)
+    parser.add_argument('--segement_directory_path', type=str, default='assets/demo/example_4/')
+    parser.add_argument('--result_directory_path', type=str, default='assets/results/example_4/')
+    parser.add_argument('--cutoff', type=str, default="0")
 
     args = parser.parse_args()
     segement_directory_path = Path(args.segement_directory_path)
     result_directory_path = Path(args.result_directory_path)
-    cutoff = 0
+    # cutoff = Path(args.cutoff)
 
     try:
         os.makedirs(result_directory_path)
     except:
         None
 
-    main(segement_directory_path, result_directory_path, cutoff)
+    main(segement_directory_path, result_directory_path, 0.5)

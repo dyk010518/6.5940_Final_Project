@@ -8,8 +8,9 @@
 # # Test baseline
 # python test_resnet.py
 
+
 # Segment an image
-python demo_sam_model.py --image_path assets/fig/example_3.jpg
+python demo_sam_model.py --image_path assets/fig/example_4.jpg
 
-
-
+# Get classifications on segmented images based on cutoff
+python segments_classification_filter.py --segement_directory_path assets/demo/example_4/ --result_directory_path assets/results/example_4/
