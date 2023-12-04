@@ -143,12 +143,10 @@ def draw_scatter(
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str)
+    parser.add_argument("--model", type=str, default = "l1")
     parser.add_argument("--weight_url", type=str, default=None)
     parser.add_argument("--multimask", action="store_true")
-    parser.add_argument("--image_path", type=str, default="assets/fig/grocery.jpg")
-    # parser.add_argument("--output_path", type=str, default="assets/demo/efficientvit_sam_demo.png")
-    # parser.add_argument("--image_path", type=str, default="assets/fig/dog.jpg")
+    parser.add_argument("--image_path", type=str, default="assets/fig/example_3.jpg")
 
     parser.add_argument("--mode", type=str, default="all", choices=["point", "box", "all"])
     parser.add_argument("--point", type=str, default=None)
@@ -170,60 +168,8 @@ def main():
     print(f"Image Size: W={W}, H={H}")
 
     tmp_file = f".tmp_{time.time()}.png"
-    if args.mode == "all":
-        masks = efficientvit_mask_generator.generate(raw_image)
-        # plt.figure(figsize=(20, 20))
-        # plt.imshow(raw_image)
-        # show_anns(masks)
-        show_segments(masks, raw_image, args.image_path)
-        # plt.axis("off")
-        # plt.savefig(args.output_path, format="png", dpi=300, bbox_inches="tight", pad_inches=0.0)
-    elif args.mode == "point":
-        args.point = yaml.safe_load(args.point or f"[[{W // 2},{H // 2},{1}]]")
-        point_coords = [(x, y) for x, y, _ in args.point]
-        point_labels = [l for _, _, l in args.point]
-
-        efficientvit_sam_predictor.set_image(raw_image)
-        masks, _, _ = efficientvit_sam_predictor.predict(
-            point_coords=np.array(point_coords),
-            point_labels=np.array(point_labels),
-            multimask_output=args.multimask,
-        )
-        plots = [
-            draw_scatter(
-                draw_binary_mask(raw_image, binary_mask, (0, 0, 255)),
-                point_coords,
-                color=["g" if l == 1 else "r" for l in point_labels],
-                s=10,
-                ew=0.25,
-                tmp_name=tmp_file,
-            )
-            for binary_mask in masks
-        ]
-        plots = cat_images(plots, axis=1)
-        Image.fromarray(plots).save(args.output_path)
-    elif args.mode == "box":
-        args.box = yaml.safe_load(args.box)
-        efficientvit_sam_predictor.set_image(raw_image)
-        masks, _, _ = efficientvit_sam_predictor.predict(
-            point_coords=None,
-            point_labels=None,
-            box=np.array(args.box),
-            multimask_output=args.multimask,
-        )
-        plots = [
-            draw_bbox(
-                draw_binary_mask(raw_image, binary_mask, (0, 0, 255)),
-                [args.box],
-                color="g",
-                tmp_name=tmp_file,
-            )
-            for binary_mask in masks
-        ]
-        plots = cat_images(plots, axis=1)
-        Image.fromarray(plots).save(args.output_path)
-    else:
-        raise NotImplementedError
+    masks = efficientvit_mask_generator.generate(raw_image)
+    show_segments(masks, raw_image, args.image_path)
 
 
 if __name__ == "__main__":
