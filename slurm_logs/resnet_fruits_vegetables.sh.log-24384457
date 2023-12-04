@@ -1,0 +1,21 @@
+Training on train_val_split/
+Epoch 0/3
+----------
+train Loss: 1.3151 Acc: 0.6543
+val Loss: 0.3684 Acc: 0.9088
+Epoch 1/3
+----------
+train Loss: 0.6165 Acc: 0.8218
+val Loss: 0.3298 Acc: 0.9288
+Epoch 2/3
+----------
+train Loss: 0.4548 Acc: 0.8539
+val Loss: 0.2730 Acc: 0.9345
+Epoch 3/3
+----------
+train Loss: 0.3794 Acc: 0.8783
+val Loss: 0.2792 Acc: 0.9288
+Traceback (most recent call last):
+  File "/home/gridsan/dykim/efficientvit/test_resnet.py", line 19, in <module>
+    from fairness_cv_project.methods.label_free_cbm.src.utils import data_utils
+ModuleNotFoundError: No module named 'fairness_cv_project'

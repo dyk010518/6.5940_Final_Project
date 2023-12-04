@@ -58,6 +58,28 @@ def show_anns(anns) -> None:
         img[m] = color_mask
     ax.imshow(img)
 
+def show_segments(anns, raw_image, image_path) -> None:
+    if len(anns) == 0:
+        return
+    sorted_anns = sorted(anns, key=(lambda x: x["area"]), reverse=True)
+    count = 0
+    image = image_path.split("/")[-1]
+    image = image.split(".")[-2]
+    os.mkdir("assets/demo/{0}/".format(image))
+
+    for ann in sorted_anns:
+        rgb_image = np.copy(raw_image)
+        img = np.zeros((sorted_anns[0]["segmentation"].shape[0], sorted_anns[0]["segmentation"].shape[1], 4), dtype = int)
+        img[:, :, :3] = rgb_image
+        output_path = "assets/demo/{0}/{0}_segment_{1}.png".format(image, str(count))
+        count += 1
+        plt.figure(figsize=(20, 20))
+        m = ann["segmentation"]
+        img[m, 3] = 255
+        plt.imshow(img)
+        plt.axis("off")
+        plt.savefig(output_path, format="png", dpi=300, bbox_inches="tight", pad_inches=0.0)
+
 
 def draw_binary_mask(raw_image: np.ndarray, binary_mask: np.ndarray, mask_color=(0, 0, 255)) -> np.ndarray:
     color_mask = np.zeros_like(raw_image, dtype=np.uint8)
@@ -124,8 +146,9 @@ def main():
     parser.add_argument("--model", type=str)
     parser.add_argument("--weight_url", type=str, default=None)
     parser.add_argument("--multimask", action="store_true")
-    parser.add_argument("--image_path", type=str, default="assets/fig/cat.jpg")
-    parser.add_argument("--output_path", type=str, default="assets/demo/efficientvit_sam_demo.png")
+    parser.add_argument("--image_path", type=str, default="assets/fig/grocery.jpg")
+    # parser.add_argument("--output_path", type=str, default="assets/demo/efficientvit_sam_demo.png")
+    # parser.add_argument("--image_path", type=str, default="assets/fig/dog.jpg")
 
     parser.add_argument("--mode", type=str, default="all", choices=["point", "box", "all"])
     parser.add_argument("--point", type=str, default=None)
@@ -149,11 +172,12 @@ def main():
     tmp_file = f".tmp_{time.time()}.png"
     if args.mode == "all":
         masks = efficientvit_mask_generator.generate(raw_image)
-        plt.figure(figsize=(20, 20))
-        plt.imshow(raw_image)
-        show_anns(masks)
-        plt.axis("off")
-        plt.savefig(args.output_path, format="png", dpi=300, bbox_inches="tight", pad_inches=0.0)
+        # plt.figure(figsize=(20, 20))
+        # plt.imshow(raw_image)
+        # show_anns(masks)
+        show_segments(masks, raw_image, args.image_path)
+        # plt.axis("off")
+        # plt.savefig(args.output_path, format="png", dpi=300, bbox_inches="tight", pad_inches=0.0)
     elif args.mode == "point":
         args.point = yaml.safe_load(args.point or f"[[{W // 2},{H // 2},{1}]]")
         point_coords = [(x, y) for x, y, _ in args.point]
