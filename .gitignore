@@ -4,5 +4,3 @@ __pycache__/
 assets/checkpoints/
 .dev/
 .exp/
-
-assets/datasets/
