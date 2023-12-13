@@ -1,0 +1,10 @@
+What is your image called?
+Traceback (most recent call last):
+  File "/home/gridsan/dykim/efficientvit/demo_sam_model.py", line 175, in <module>
+    main()
+  File "/home/gridsan/dykim/efficientvit/demo_sam_model.py", line 165, in main
+    raw_image = np.array(Image.open(args.image_path).convert("RGB"))
+  File "/state/partition1/llgrid/pkg/anaconda/anaconda3-2023b/lib/python3.9/site-packages/PIL/Image.py", line 3227, in open
+    fp = builtins.open(filename, "rb")
+IsADirectoryError: [Errno 21] Is a directory: 'assets/fig/'
+slurmstepd-d-14-7-1: error: *** JOB 24481271 ON d-14-7-1 CANCELLED AT 2023-12-13T15:43:40 ***

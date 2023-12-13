@@ -161,7 +161,7 @@ if __name__ == '__main__':
     MOMENTUM = 0.9
     STEP_SIZE = 7
     GAMMA = 0.1
-    NUM_EPOCHS = 1
+    NUM_EPOCHS = 25
     SEED = 0
 
     parser = argparse.ArgumentParser(description='Settings for training')

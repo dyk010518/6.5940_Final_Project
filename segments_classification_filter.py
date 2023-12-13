@@ -59,4 +59,4 @@ if __name__ == '__main__':
     except:
         None
 
-    main(segement_directory_path, result_directory_path, 0.5)
+    main(segement_directory_path, result_directory_path, cutoff=0.78)

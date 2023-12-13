@@ -54,10 +54,11 @@ def main(path_model, path_classes, path_image, device, num_classes=0):
     image = data_transforms(image).to(device)
 
     output = target_model(image.unsqueeze(0))
-    print(output)
-    print("Max", torch.max(output).item())
-    print("Max Index", torch.argmax(output).item())
-    print(categories[torch.argmax(output).item()])
+    output = torch.nn.functional.softmax(output.cpu())
+    # print(output)
+    # print("Max", torch.max(output).item())
+    # print(path_image)
+    # print(categories[torch.argmax(output).item()])
 
     return torch.argmax(output), torch.max(output), categories
     

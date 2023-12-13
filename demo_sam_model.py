@@ -147,7 +147,6 @@ def main():
     parser.add_argument("--weight_url", type=str, default=None)
     parser.add_argument("--multimask", action="store_true")
     parser.add_argument("--image_path", type=str, default="assets/fig/example_3.jpg")
-
     parser.add_argument("--mode", type=str, default="all", choices=["point", "box", "all"])
     parser.add_argument("--point", type=str, default=None)
     parser.add_argument("--box", type=str, default=None)
